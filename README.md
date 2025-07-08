@@ -1,6 +1,6 @@
 # 🤖 Local AI Chatbot with Ollama
 
-A simple Python chatbot that runs on your computer using Ollama.
+A simple Python chatbot that runs on your computer using Ollama, specifically to mask sensistive data.
 
 ## What is this?
 
