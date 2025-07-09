@@ -1,0 +1,36 @@
+Notes: As of 2025-07-09, even after the new files were added and tested, the deepseek model is still not good enough to recognize sensitive information properly, let alone mask it. This leads me to think that the model doesn't have enough training data to recognize or classify these type of data. 
+At least, Claude Sonnet 4 was able to determine fake email addresses and fake phone numbers, and it was able to mask the email pretty well, just not the phone number.
+
+Prompt: my example: my email is testerfirstname.lastname@gmail.com, and my phone number is (123) 456-7890
+
+Output: 
+SENSITIVE DATA DETECTED
+Your text contains the following sensitive information:
+Types of sensitive data found:
+
+Email address
+Phone number
+
+Masking Examples:
+Email: testerfirstname.lastname@gmail.com
+
+Partial masking: t***@g*****.com
+Full masking: [EMAIL_ADDRESS]
+
+Phone: (123) 456-7890
+
+Partial masking: (123) ***-**90
+Full masking: [PHONE_NUMBER]
+
+Complete masked versions:
+Partial masking:
+"my email is t***@g*****.com, and my phone number is (123) ***-**90"
+Full masking:
+"my email is [EMAIL_ADDRESS], and my phone number is [PHONE_NUMBER]"
+Analysis:
+Both pieces of information are classified as sensitive because:
+
+Email addresses are personal identifiers that can be used for contact and account access
+Phone numbers are personal identifiers that provide direct contact information
+
+This is exactly the type of analysis your DeepSeek model should be performing with the improved context you're implementing!
