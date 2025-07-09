@@ -1,5 +1,22 @@
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
+from sensitive_data_parser import SensitiveDataContextParser
+
+
+# Load your context document
+with open('context.md', 'r') as f:
+    context_text = f.read()
+
+# Parse it
+parser = SensitiveDataContextParser(context_text)
+
+# Use the structured data
+categories = parser.parsed_data['sensitive_categories']
+masking_examples = parser.parsed_data['masking_examples']
+
+# Build prompt for your DeepSeek model
+prompt_template = parser.build_prompt_template()
+
 
 template = """
 Answer the question below.
@@ -16,7 +33,7 @@ prompt = ChatPromptTemplate.from_template(template)
 chain = prompt | model
 
 def handle_conversation():
-    context = """You are a skilled AI assistant that checks if the user's data is considered sensitive or not. If the data is sensitive, then you will mask it appropriately with the given format. You will also provide the user with a three different examples of how the data can be masked: partial masking and full masking. If the data is not sensitive, then you will simply return the data as it is."""
+    context = prompt_template
     print("Welcome to the AI Chatbot to mask sensitive data. What information would you like to check? Type 'exit' to end.")
     while True:
         user_input = input("You: ")
